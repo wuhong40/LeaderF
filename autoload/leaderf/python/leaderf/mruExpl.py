@@ -8,6 +8,7 @@ from .utils import *
 from .explorer import *
 from .manager import *
 from .mru import *
+from .fileExpl import *
 
 
 #*****************************************************
@@ -109,6 +110,20 @@ class MruExplManager(Manager):
             lfCmd("hide edit %s" % escSpecial(dirname + basename))
         except vim.error as e: # E37
             lfPrintError(e)
+
+    def _cmdExtension(self, cmd):
+        """
+        this function can be overridden to add new cmd
+        if return true, exit the input loop
+        """
+        if equal(cmd, '<C-N>'):
+            self.quit()
+            fileExplManager.startExplorer('bottom')
+            # fileExplManager.input(self._content)
+            # fileExplManager._search(self._content)
+            # lfCmd("echo hello")
+        return True
+        # pass
 
     def _getDigest(self, line, mode):
         """
